@@ -12,5 +12,4 @@ fetchCategories();
 addWork();
 
 displayFilters();
-setupFilters();
 fetchWorks();

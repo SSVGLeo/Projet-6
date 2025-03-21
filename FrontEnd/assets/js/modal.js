@@ -9,6 +9,10 @@ export function setupModal() {
     ".modal__border, .modal__content i, .modal__content2 .fa-xmark"
   );
 
+  if (!modal) {
+    return
+  }
+ 
   openModal.addEventListener("click", (event) => {
     event.preventDefault();
     modal.style.display = "flex";
@@ -62,6 +66,11 @@ export function fetchWorksModal() {
     .then((response) => response.json())
     .then((projets) => {
       const gallery2 = document.querySelector(".gallery2");
+
+      if (!gallery2) {
+        return;
+      }
+
       gallery2.innerHTML = "";
 
       projets.forEach((projet) => {
@@ -98,7 +107,7 @@ export function deleteWork(id) {
       if (!response.ok) {
         throw new Error("Erreur lors de la suppression");
       }
-      return response.text(); // Certains DELETE renvoient une réponse vide
+      return response.text();
     })
     .then(() => {
       // Supprimer dynamiquement l'élément dans la modal
@@ -129,6 +138,10 @@ export function fetchCategories() {
     .then((categories) => {
       const categorySelect = document.querySelector("#category");
 
+      if (!categorySelect) {
+        return;
+      }
+
       categories.forEach((category) => {
         const option = document.createElement("option");
         option.value = category.id;
@@ -138,8 +151,6 @@ export function fetchCategories() {
     })
     .catch((error) => console.error("Erreur :", error));
 }
-
-
 
 function injectImageToGalery(data) {
   // Ajouter dynamiquement l'image à la galerie secondaire
@@ -171,18 +182,21 @@ function injectImageToGalery(data) {
 `;
 }
 
-
 export function addWork() {
   const addImage = document.querySelector("#add__image");
   const fileInput = document.querySelector("#fileInput");
   const titleInput = document.querySelector("#title");
   const categoryInput = document.querySelector("#category");
 
+  if (!addImage) {
+    return;
+  }
+
   function checkFields() {
     const file = fileInput.files[0];
     const title = titleInput.value.trim();
     const category = categoryInput.value;
-  
+
     if (!file || !title || category === "0") {
       addImage.disabled = true;
       addImage.classList.add("disabled");
@@ -202,7 +216,6 @@ export function addWork() {
 
   addImage.addEventListener("click", (event) => {
     event.preventDefault();
-    console.log("click");
 
     const file = fileInput.files[0];
     const title = titleInput.value.trim();
@@ -228,7 +241,6 @@ export function addWork() {
       body: formData,
     })
       .then((response) => {
-        console.log("fetch fait");
         if (!response.ok) {
           console.log("error");
           throw new Error("Erreur lors de l'envoi de l'image");
@@ -238,6 +250,7 @@ export function addWork() {
       .then((data) => {
         console.log(data);
         injectImageToGalery(data);
+        fetchWorksModal(data);
         addImage.classList.remove("enabled");
         addImage.classList.add("disabled");
 

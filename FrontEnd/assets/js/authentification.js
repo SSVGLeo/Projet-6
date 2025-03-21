@@ -1,10 +1,14 @@
 export function setupLogin () {
     const button = document.querySelector("button");
+
+    if (!button) {
+        return;
+    }
+
+    
     button.addEventListener("click", () => {
         const email = document.querySelector("#email").value;
         const password = document.querySelector("#password").value;
-      
-        console.log(email, password);
       
         fetch("http://localhost:5678/api/users/login", {
           method: "POST",

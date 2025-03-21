@@ -1,6 +1,15 @@
 export function fetchWorks(projets) {
     const gallery = document.querySelector(".gallery");
+
+    if (!gallery) {
+        return;
+    }
+
     gallery.innerHTML = "";
+
+    if (!projets) {
+        return;
+    }
 
     projets.forEach((projet) => {
         const figure = document.createElement("figure");
@@ -15,6 +24,14 @@ export function fetchWorks(projets) {
 
 export function displayFilters(projets) {
     const filters = document.querySelector(".filters");
+
+    if (!filters) {
+        return;
+    }
+
+    if (!projets) {
+        return;
+    }
 
     const categoriesMap = new Map();
 
