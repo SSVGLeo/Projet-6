@@ -10,12 +10,14 @@ export function setupModal() {
   );
 
   if (!modal) {
-    return
+    return;
   }
- 
+
   openModal.addEventListener("click", (event) => {
     event.preventDefault();
     modal.style.display = "flex";
+    modal__content.classList.remove("none");
+    modal__content2.classList.add("none");
   });
 
   closeModalElements.forEach((element) => {
@@ -193,6 +195,7 @@ export function addWork() {
   }
 
   function checkFields() {
+    const modal = document.querySelector("#modal");
     const file = fileInput.files[0];
     const title = titleInput.value.trim();
     const category = categoryInput.value;
@@ -253,6 +256,7 @@ export function addWork() {
         fetchWorksModal(data);
         addImage.classList.remove("enabled");
         addImage.classList.add("disabled");
+        modal.style.display = "none";
 
         alert("Image ajoutée !");
       })
