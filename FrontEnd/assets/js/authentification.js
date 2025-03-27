@@ -1,5 +1,5 @@
 export function setupLogin () {
-    const button = document.querySelector("button");
+    const button = document.querySelector("#logbutton");
 
     if (!button) {
         return;

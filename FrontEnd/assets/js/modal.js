@@ -1,3 +1,5 @@
+import { setupFilters } from "./api.js";
+
 export function setupModal() {
   const openModal = document.querySelector(".edit__portfolio");
   const modal = document.querySelector("#modal");
@@ -167,6 +169,7 @@ function injectImageToGalery(data) {
   const gallery = document.querySelector(".gallery");
   const figureMain = document.createElement("figure");
   figureMain.setAttribute("data-id", data.id);
+  figureMain.setAttribute("data-category", data.categoryId);
   figureMain.innerHTML = `
 <img src ="${data.imageUrl}" alt = "${data.title}">
 <figcaption>${data.title}</figcaption>
@@ -233,6 +236,7 @@ export function addWork() {
     formData.append("image", file);
     formData.append("title", title);
     formData.append("category", category);
+    console.log(category);
 
     console.log(formData);
 
@@ -254,11 +258,17 @@ export function addWork() {
         console.log(data);
         injectImageToGalery(data);
         fetchWorksModal(data);
+
         addImage.classList.remove("enabled");
         addImage.classList.add("disabled");
         modal.style.display = "none";
 
         alert("Image ajoutée !");
+        return fetch("http://localhost:5678/api/works");
+      })
+      .then((response) => response.json())
+      .then((projets) => {
+        setupFilters(projets);
       })
       .catch((error) => console.error("Erreur :", error));
   });
